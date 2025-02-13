@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine’s Surprise</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #a8bfe9;
+        }
+        #message-container {
+            margin-top: 10%;
+        }
+        #question-container, #final-message {
+            display: none;
+            margin-top: 10%;
+        }
+        video {
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .yes-button, .no-button {
+            font-size: 20px;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .yes-button { background-color: green; }
+        .no-button { background-color: red; }
+        .gif-container {
+            margin-top: 20px;
+        }
+        img {
+            width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sweet Message First -->
+    <div id="message-container">
+        <h1>Happy Valentine’s Day, My Love! ❤️</h1>
+        <p>Mahal, every day with you is special, but today I just want to remind you how much I love and appreciate you.</p>
+        <p>Ikaw lang at wala nang iba. ❤️</p>
+
+        <!-- Video Section -->
+        <video controls autoplay loop>
+            <source src="valentine-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <br>
+        <button onclick="showQuestion()">Continue</button>
+    </div>
+
+    <!-- Question Section -->
+    <div id="question-container">
+        <h2>Will you be my Valentine's date? 💕</h2>
+        <button class="yes-button" onclick="handleYesClick()">Yes</button>
+        <button class="no-button" onclick="handleNoClick()">No</button>
+        <div class="gif-container" id="gif-container"></div>
+    </div>
+
+    <!-- Final Message -->
+    <div id="final-message">
+        <h2>See you on our date! ❤️</h2>
+    </div>
+
+    <!-- Hidden Form to Send Email -->
+    <form id="emailForm" action="https://formsubmit.co/sanji3109@gmail.com" method="POST" style="display: none;">
+        <input type="hidden" name="Yes Count" id="yesCountInput">
+        <input type="hidden" name="No Count" id="noCountInput">
+        <input type="hidden" name="_subject" value="Valentine's Response">
+        <input type="hidden" name="_captcha" value="false">
+    </form>
+
+    <script>
+        let yesCount = 0;
+        let noCount = 0;
+
+        function showQuestion() {
+            document.getElementById("message-container").style.display = "none";
+            document.getElementById("question-container").style.display = "block";
+        }
+
+        function handleYesClick() {
+            yesCount++;
+            document.getElementById("gif-container").innerHTML = '<img src="yes-cat.gif" alt="Happy Cat">';
+            
+            // Show the final message
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("final-message").style.display = "block";
+
+            // Send email
+            sendEmail();
+        }
+
+        function handleNoClick() {
+            noCount++;
+            document.getElementById("gif-container").innerHTML = '<img src="no-cat.gif" alt="Crying Cat">';
+
+            // Increase Yes Button Size
+            const yesButton = document.querySelector(".yes-button");
+            const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = `${currentSize * 1.5}px`;
+        }
+
+        function sendEmail() {
+            document.getElementById("yesCountInput").value = yesCount;
+            document.getElementById("noCountInput").value = noCount;
+            document.getElementById("emailForm").submit();
+        }
+    </script>
+
+</body>
+</html>
